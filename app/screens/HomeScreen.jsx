@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Text, View, SafeAreaView, ImageBackground, Image } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
+import MyHabits from "../homeScreen/MyHabits";
 
 const StyledHomeScreen = styled.View`
     flex: 1;
@@ -18,6 +19,7 @@ const HomeScreen = () => {
     return (
         <StyledHomeScreen>
             <NavigationTop />
+            <MyHabits />
             <DockBottom />
         </StyledHomeScreen>
     );

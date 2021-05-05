@@ -1,6 +1,6 @@
-import { StatusBar } from "expo-status-bar";
+import {} from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import HomeScreen from "./app/screens/HomeScreen";
@@ -11,6 +11,10 @@ import {
     GlobalProvider,
     useGlobalStateContext,
 } from "./app/context/globalContext";
+
+const StyledApp = styled.SafeAreaView`
+    /* padding-top: ${StatusBar.currentHeight}; */
+`;
 
 export default function App() {
     const lightTheme = {
@@ -26,10 +30,11 @@ export default function App() {
 
     return (
         <ThemeProvider theme={lightTheme}>
-            <SafeAreaView style={styles.container}>
+            <StyledApp style={styles.container}>
+                <StatusBar />
                 {/* {!isLoggedIn && <WelcomeScreen />} */}
                 <HomeScreen />
-            </SafeAreaView>
+            </StyledApp>
         </ThemeProvider>
     );
 }

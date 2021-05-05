@@ -14,11 +14,11 @@ const StyledNavigationTop = styled.View`
     background-color: white;
     width: 100%;
     height: 60px;
-    flex: 1;
+    /* flex: 1;
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    right: 0; */
     flex-direction: row;
     align-items: center;
 `;
@@ -46,10 +46,12 @@ const NavigationTop = () => {
     return (
         <StyledNavigationTop>
             <Input
-                placeholder="Search Habits!"
+                placeholder="Search my Habits!"
                 onChangeText={(text) => setText(text)}
                 defaultValue={text}
-            ></Input>
+            >
+                <Text>{text}</Text>
+            </Input>
             <NavigationButton>
                 <Text>Icon</Text>
             </NavigationButton>
