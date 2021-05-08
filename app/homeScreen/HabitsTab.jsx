@@ -138,6 +138,7 @@ const HabitsTab = () => {
                 </TouchableOpacity>
             </HabitsCategoryBox>
             <FlatList
+                contentContainerStyle={{ paddingTop: 10, paddingBottom: 50 }}
                 data={habitsData}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
