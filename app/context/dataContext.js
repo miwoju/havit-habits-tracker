@@ -4,36 +4,115 @@ import { version } from "../../package.json";
 //Define the context
 
 const initialState = {
-    fatesAmount: { acquaint: 20, intertwined: 20 },
-    primogemsAmount: 1600,
-    spent: 0,
-    results: [],
-    history: [],
-    bannerStats: {
-        beginner: {
-            //Keep this at 9 for first guaranteed Noelle
-            pity4Star: 9,
-            pity5Star: 0,
-            beginnerRolled: 0,
-            guaranteedFeatured4Star: true,
+    habitsData: [
+        {
+            id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+            title:
+                "Drink Coffee In The Morning Today Because That's The Best Thing",
+            icon: "coffee",
+            streak: 5,
+            goal: 10,
+            completed: false,
+            progress: 0,
         },
-        featured: {
-            pity4Star: 0,
-            pity5Star: 0,
-            guaranteedFeatured5Star: true,
-            guaranteedFeatured4Star: false,
+        {
+            id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+            title: "Weight Lift",
+            icon: "dumbbell",
+            streak: 0,
+            goal: 10,
+            completed: false,
+            progress: 0,
         },
-        weapon: {
-            pity4Star: 0,
-            pity5Star: 0,
-            guaranteedFeatured5Star: false,
-            guaranteedFeatured4Star: false,
+        {
+            id: "58694a0f-3da1-471f-bd96-145571e29d72",
+            title: "Brush Teeth",
+            icon: "tooth",
+            streak: 159,
+            goal: 200,
+            completed: false,
+            progress: 0,
         },
-        permanent: {
-            pity4Star: 0,
-            pity5Star: 0,
+        {
+            id: "58694a0f-3da1-471f-bd96-1455571e29d72",
+            title: "Run",
+            icon: "running",
+            streak: 15,
+            goal: 20,
+            completed: false,
+            progress: 0,
         },
-    },
+        {
+            id: "58694a0f-3da1-471f-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 2500,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694a0rf-3da1-471f-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 3000,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694a20f-3da1-471f-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 3000,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694af0f-3da1-471f-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 3000,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694a0f-3da1g-471f-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 3000,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694a0f-3da1-471fw-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            goal: 7,
+            completed: false,
+            progress: 0,
+        },
+        {
+            id: "58694a0f-3da1-471fg-bd96-1455471e29d72",
+            title:
+                "Read A Book Because That's One Of The Best Things You Can Do",
+            icon: "book-open",
+            streak: 2401,
+            // goal: 7,
+            completed: false,
+            progress: 0,
+        },
+    ],
 };
 
 const DataStateContext = createContext(initialState);
@@ -44,20 +123,31 @@ const dataReducer = (state, action) => {
         case "SET_PRIMOGEMS": {
             return { ...state, primogemsAmount: action.payload };
         }
-        case "SET_SPENT": {
-            return { ...state, spent: action.payload };
-        }
-        case "SET_FATES": {
-            return { ...state, fatesAmount: action.payload };
-        }
-        case "SET_RESULTS": {
-            return { ...state, results: action.payload };
-        }
-        case "SET_PITY": {
-            return { ...state, bannerStats: action.payload };
-        }
-        case "SET_HISTORY": {
-            return { ...state, history: action.payload };
+        case "COMPLETE_HABIT": {
+            const index = state.habitsData.findIndex(
+                (habit) => habit.id === action.payload
+            ); //finding index of the item
+            const newArray = [...state.habitsData]; //making a new array
+            newArray[index].completed = !newArray[index].completed; //changing value in the new array
+            newArray[index].streak += 1;
+            newArray[index].progress = (
+                (newArray[index].streak / newArray[index].goal) *
+                100
+            ).toFixed(2);
+
+            if (newArray[index].progress < 100) {
+                newArray[index].progress = (
+                    (newArray[index].streak / newArray[index].goal) *
+                    100
+                ).toFixed(2);
+            } else {
+                newArray[index].progress = 100;
+            }
+
+            return {
+                ...state,
+                habitsData: newArray,
+            };
         }
         case "RESET_DATA": {
             return initialState;
@@ -68,48 +158,12 @@ const dataReducer = (state, action) => {
     }
 };
 
-// function objectsHaveSameKeys(...objects) {
-//     const allKeys = objects.reduce(
-//         (keys, object) => keys.concat(Object.keys(object)),
-//         []
-//     );
-//     const union = new Set(allKeys);
-//     return objects.every((object) => union.size === Object.keys(object).length);
-// }
-
-// const loadData = () => {
-//     const data = JSON.parse(localStorage.getItem("userData"));
-//     localStorage.removeItem("history");
-
-//     if (
-//         !localStorage.getItem("version") ||
-//         localStorage.getItem("version") !== version
-//     ) {
-//         // localStorage.clear();
-//         localStorage.removeItem("globalData");
-//         localStorage.removeItem("version");
-
-//         localStorage.setItem("version", version);
-//         return false;
-//     }
-
-//     if (!data || !initialState) {
-//         return false;
-//     } else if (!objectsHaveSameKeys(data, initialState)) {
-//         return false;
-//     }
-//     return data;
-// };
-
 export const DataProvider = ({ children }) => {
     const [state, dispatch] = useReducer(
         dataReducer,
         // loadData() ||
         initialState
     );
-
-    // const { history } = state;
-    // localStorage.setItem("userData", JSON.stringify(state));
 
     return (
         <DataDispatchContext.Provider value={dispatch}>

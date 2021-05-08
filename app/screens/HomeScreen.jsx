@@ -4,7 +4,11 @@ import styled from "styled-components";
 import { Text, View, SafeAreaView, ImageBackground, Image } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
-import MyHabits from "../homeScreen/MyHabits";
+
+import TodayTab from "../homeScreen/TodayTab";
+import HabitsTab from "../homeScreen/HabitsTab";
+
+import { useGlobalStateContext } from "../context/globalContext";
 
 const StyledHomeScreen = styled.View`
     flex: 1;
@@ -16,10 +20,14 @@ const StyledHomeScreen = styled.View`
 `;
 
 const HomeScreen = () => {
+    const { currentTab } = useGlobalStateContext();
     return (
         <StyledHomeScreen>
-            <NavigationTop />
-            <MyHabits />
+            {/* <NavigationTop /> */}
+            <View flex={1}>
+                {currentTab === "today" && <TodayTab />}
+                {currentTab === "habits" && <HabitsTab />}
+            </View>
             <DockBottom />
         </StyledHomeScreen>
     );

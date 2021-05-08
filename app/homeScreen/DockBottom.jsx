@@ -1,6 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, SafeAreaView, ImageBackground, Image } from "react-native";
+import {
+    View,
+    Text,
+    SafeAreaView,
+    ImageBackground,
+    Image,
+    TouchableOpacity,
+} from "react-native";
+import { useGlobalDispatchContext } from "../context/globalContext";
 
 const StyledDockBottom = styled.View`
     background-color: white;
@@ -15,7 +23,7 @@ const StyledDockBottom = styled.View`
     justify-content: space-between;
 `;
 
-const DockButton = styled.View`
+const DockButton = styled.TouchableOpacity`
     flex: 1;
     height: 100%;
     align-items: center;
@@ -27,18 +35,23 @@ const ButtonText = styled.Text`
 `;
 
 const DockBottom = () => {
+    const globalDispatch = useGlobalDispatchContext();
+
+    const onButtonPress = (payload) => {
+        globalDispatch({ type: "SET_TAB", payload: payload });
+    };
     return (
         <StyledDockBottom>
-            <DockButton>
+            <DockButton onPress={() => onButtonPress("today")}>
                 <ButtonText>TODAY</ButtonText>
             </DockButton>
-            <DockButton>
-                <ButtonText>STATS</ButtonText>
+            <DockButton onPress={() => onButtonPress("habits")}>
+                <ButtonText>HABITS</ButtonText>
             </DockButton>
-            <DockButton>
-                <ButtonText>MY DAY</ButtonText>
+            <DockButton onPress={() => onButtonPress("progress")}>
+                <ButtonText>PROGRESS</ButtonText>
             </DockButton>
-            <DockButton>
+            <DockButton onPress={() => onButtonPress("more")}>
                 <ButtonText>MORE</ButtonText>
             </DockButton>
         </StyledDockBottom>

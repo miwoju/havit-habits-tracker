@@ -13,7 +13,8 @@ import {
 const StyledNavigationTop = styled.View`
     background-color: white;
     width: 100%;
-    height: 60px;
+    height: ${(props) => (props.height ? props.height : "40px")};
+    position: relative;
     /* flex: 1;
     position: absolute;
     top: 0;
@@ -23,39 +24,11 @@ const StyledNavigationTop = styled.View`
     align-items: center;
 `;
 
-const Input = styled.TextInput`
-    /* background-color: ${(props) => props.theme.backgroundColor}; */
-    background-color: lightgrey;
-    flex: 1;
-    padding: 0 8px;
-    align-self: stretch;
-    margin: 10px 5px 10px 15px;
-`;
-
-const NavigationButton = styled.View`
-    /* background-color: red; */
-    height: 100%;
-    aspect-ratio: 1;
-    align-items: center;
-    justify-content: center;
-`;
-
-const NavigationTop = () => {
-    const [text, setText] = useState("");
+const NavigationTop = ({ height, children }) => {
+    // const [text, setText] = useState("");
 
     return (
-        <StyledNavigationTop>
-            <Input
-                placeholder="Search my Habits!"
-                onChangeText={(text) => setText(text)}
-                defaultValue={text}
-            >
-                <Text>{text}</Text>
-            </Input>
-            <NavigationButton>
-                <Text>Icon</Text>
-            </NavigationButton>
-        </StyledNavigationTop>
+        <StyledNavigationTop height={height}>{children}</StyledNavigationTop>
     );
 };
 

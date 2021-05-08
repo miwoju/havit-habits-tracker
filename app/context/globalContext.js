@@ -2,22 +2,29 @@ import React, { createContext, useReducer, useContext } from "react";
 
 //Define the context
 
+const initialState = {
+    isLoggedIn: false,
+    currentTab: "today",
+};
+
 const globalReducer = (state, action) => {
     switch (action.type) {
-        case "isLoggedIn": {
+        case "SET_LOGGED_IN": {
             return {
                 ...state,
                 isLoggedIn: action.payload,
+            };
+        }
+        case "SET_TAB": {
+            return {
+                ...state,
+                currentTab: action.payload,
             };
         }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
         }
     }
-};
-
-const initialState = {
-    isLoggedIn: false,
 };
 
 const GlobalStateContext = createContext(initialState);
