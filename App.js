@@ -21,6 +21,7 @@ import {
     faRunning,
     faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
+import AddHabits from "./app/screens/AddHabits";
 library.add(faCoffee, faDumbbell, faTooth, faRunning, faBookOpen);
 
 const StyledApp = styled.SafeAreaView`
@@ -37,7 +38,7 @@ export default function App() {
         text: "#485056",
         textSecondary: "#B5A18C",
     };
-    const { isLoggedIn } = useGlobalStateContext();
+    const { isLoggedIn, currentScreen } = useGlobalStateContext();
 
     return (
         <GlobalProvider>
@@ -46,8 +47,9 @@ export default function App() {
                     <StatusBar />
                     <StyledApp style={styles.container}>
                         {/* {!isLoggedIn && <WelcomeScreen />} */}
-
-                        <HomeScreen />
+                        {/* {currentScreen === "home" && <HomeScreen />}
+                        {currentScreen === "add_habits" && <AddHabits />} */}
+                        <AddHabits />
                     </StyledApp>
                 </ThemeProvider>
             </DataProvider>

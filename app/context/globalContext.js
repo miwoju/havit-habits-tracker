@@ -6,6 +6,7 @@ const initialState = {
     isLoggedIn: false,
     currentTab: "today",
     isAppLoaded: false,
+    currentScreen: "home",
 };
 
 const globalReducer = (state, action) => {
@@ -23,6 +24,12 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 currentTab: action.payload,
+            };
+        }
+        case "SET_SCREEN": {
+            return {
+                ...state,
+                currentScreen: action.payload,
             };
         }
         default: {

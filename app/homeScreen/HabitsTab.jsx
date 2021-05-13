@@ -18,6 +18,7 @@ import { useDataStateContext } from "../context/dataContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import NavigationTop from "./NavigationTop";
+import Header from "../layout/Header";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -76,20 +77,20 @@ const HabitStreaks = styled.Text`
     font-weight: bold;
 `;
 
-const HeaderTitle = styled.Text`
-    flex: 1;
-    text-align: center;
-    font-size: 18px;
-`;
+// const HeaderTitle = styled.Text`
+//     flex: 1;
+//     text-align: center;
+//     font-size: 18px;
+// `;
 
-const HeaderButtons = styled.TouchableOpacity`
-    position: absolute;
-    right: 10px;
-    padding: 10px;
-    aspect-ratio: 1;
-    align-items: center;
-    justify-content: center;
-`;
+// const HeaderButtons = styled.TouchableOpacity`
+//     position: absolute;
+//     right: 10px;
+//     padding: 10px;
+//     aspect-ratio: 1;
+//     align-items: center;
+//     justify-content: center;
+// `;
 
 const HabitsTab = () => {
     const { habitsData } = useDataStateContext();
@@ -117,12 +118,7 @@ const HabitsTab = () => {
     );
     return (
         <StyledHabitsTab>
-            <NavigationTop>
-                <HeaderTitle>My Habits</HeaderTitle>
-                <HeaderButtons>
-                    <Text style={{ fontSize: 22 }}>+</Text>
-                </HeaderButtons>
-            </NavigationTop>
+            {/* <Header title={"My Habits"} buttonRight={"Add"} /> */}
             <HabitsCategoryBox>
                 <TouchableOpacity>
                     <HabitsCategoryItem>Morning</HabitsCategoryItem>
