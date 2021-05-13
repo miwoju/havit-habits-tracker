@@ -5,6 +5,7 @@ import React, { createContext, useReducer, useContext } from "react";
 const initialState = {
     isLoggedIn: false,
     currentTab: "today",
+    isAppLoaded: false,
 };
 
 const globalReducer = (state, action) => {
@@ -14,6 +15,9 @@ const globalReducer = (state, action) => {
                 ...state,
                 isLoggedIn: action.payload,
             };
+        }
+        case "SET_APP_LOADED": {
+            return { ...state, isAppLoaded: action.payload };
         }
         case "SET_TAB": {
             return {

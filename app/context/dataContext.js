@@ -13,7 +13,7 @@ const initialState = {
             streak: 5,
             goal: 10,
             completed: false,
-            progress: 0,
+            progress: 50,
         },
         {
             id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
@@ -128,13 +128,23 @@ const dataReducer = (state, action) => {
                 (habit) => habit.id === action.payload
             ); //finding index of the item
             const newArray = [...state.habitsData]; //making a new array
-            newArray[index].completed = !newArray[index].completed; //changing value in the new array
-            newArray[index].streak += 1;
-            newArray[index].progress = (
-                (newArray[index].streak / newArray[index].goal) *
-                100
-            ).toFixed(2);
 
+            if (!newArray[index].completed) {
+                newArray[index].completed = true;
+                // newArray[index].completed = !newArray[index].completed; //changing value in the new array
+                newArray[index].streak += 1;
+                newArray[index].progress = (
+                    (newArray[index].streak / newArray[index].goal) *
+                    100
+                ).toFixed(2);
+            } else {
+                newArray[index].completed = false;
+                newArray[index].streak -= 1;
+                newArray[index].progress = (
+                    (newArray[index].streak / newArray[index].goal) *
+                    100
+                ).toFixed(2);
+            }
             if (newArray[index].progress < 100) {
                 newArray[index].progress = (
                     (newArray[index].streak / newArray[index].goal) *
@@ -143,7 +153,21 @@ const dataReducer = (state, action) => {
             } else {
                 newArray[index].progress = 100;
             }
-
+            return {
+                ...state,
+                habitsData: newArray,
+            };
+        }
+        case "LOAD_HABITS": {
+            const newArray = state.habitsData.map((habit) => {
+                return {
+                    ...habit,
+                    progress:
+                        ((habit.streak ? habit.streak : 0) /
+                            (habit.goal ? habit.goal : 7)) *
+                        100,
+                };
+            });
             return {
                 ...state,
                 habitsData: newArray,

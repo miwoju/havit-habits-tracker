@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import {
+    Animated,
     Text,
     View,
     SafeAreaView,
@@ -20,11 +21,8 @@ import {
     useDataStateContext,
 } from "../context/dataContext";
 
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import NavigationTop from "./NavigationTop";
-
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
+import HabitsButton from "./HabitsButton";
 
 const StyledMyHabits = styled.View`
     flex: 1;
@@ -37,42 +35,6 @@ const HabitsCategoryLabel = styled.Text`
     padding: 5px 10px;
     border-radius: 50px;
     font-size: 14px;
-`;
-
-const HabitButton = styled.View`
-    align-items: center;
-    /* justify-content: center; */
-    width: ${windowWidth / 4};
-    aspect-ratio: 1;
-    margin-bottom: 30px;
-`;
-
-const HabitButtonIcon = styled.Pressable`
-    /* border: 3px solid #ffadad; */
-
-    /* background-color: #caffbf; */
-
-    border-radius: 50px;
-    width: 70%;
-    margin: 5px;
-    /* border: 1px solid rgba(0, 0, 0, 0.1); */
-    aspect-ratio: 1;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 1px solid ${(props) => (props.progress ? "#000" : "transparent")};
-`;
-
-const HabitIMG = styled(FontAwesomeIcon)`
-    /* border: 3px solid #ffd6a5;
-    border-radius: 50px; */
-`;
-
-const HabitButtonLabel = styled.Text`
-    font-size: 12px;
-    margin-top: 4px;
-    text-align: center;
-    margin-horizontal: 5px;
 `;
 
 const InputSearch = styled.TextInput`
@@ -92,15 +54,6 @@ const SearchButton = styled.View`
     justify-content: center;
 `;
 
-const ProgressMeter = styled.View`
-    background-color: #caffbf;
-    opacity: ${(props) => (props.completed ? 1 : 0.4)};
-    width: 100%;
-    height: ${(props) => props.progress}%;
-    position: absolute;
-    bottom: 0;
-`;
-
 // const HabitsItem = ({ title }) => <View></View>;
 
 const MyHabits = () => {
@@ -109,40 +62,12 @@ const MyHabits = () => {
     const { habitsData } = useDataStateContext();
     const dataDispatch = useDataDispatchContext();
 
-    const onButtonPress = (id) => {
-        dataDispatch({ type: "COMPLETE_HABIT", payload: id });
-        // console.log(habitsData);
-    };
+    useEffect(() => {
+        dataDispatch({ type: "LOAD_HABITS" });
+    }, []);
 
-    const renderItem = ({ item }) => (
-        <HabitButton title={item.title}>
-            <HabitButtonIcon
-                onPress={() => onButtonPress(item.id)}
-                hitSlop={10}
-                progress={item.progress >= 100}
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed
-                            ? "rgb(210, 230, 255)"
-                            : "#fff",
-                    },
-                    {
-                        elevation: 4,
-                        shadowOffset: { width: 5, height: 5 },
-                        shadowColor: "grey",
-                        shadowOpacity: 0.5,
-                        shadowRadius: 10,
-                    },
-                ]}
-            >
-                <ProgressMeter
-                    progress={item.progress}
-                    completed={item.completed}
-                />
-                <HabitIMG icon={item.icon} size={32} color={"#444"} />
-            </HabitButtonIcon>
-            <HabitButtonLabel numberOfLines={2}>{item.title}</HabitButtonLabel>
-        </HabitButton>
+    const renderItem = ({ item, index }) => (
+        <HabitsButton item={item} index={index} />
     );
     return (
         <StyledMyHabits>
