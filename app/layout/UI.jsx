@@ -25,6 +25,8 @@ const StyledHeaderButton = styled.TouchableOpacity`
     justify-content: center;
 `;
 
-export const HeaderButton = ({ children }) => {
-    return <StyledHeaderButton>{children}</StyledHeaderButton>;
+export const HeaderButton = ({ children, onPress }) => {
+    return (
+        <StyledHeaderButton onPress={onPress}>{children}</StyledHeaderButton>
+    );
 };
