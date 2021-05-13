@@ -27,6 +27,7 @@ const StyledHeaderButton = styled.TouchableOpacity`
 
 export const HeaderButton = ({ children, onPress }) => {
     return (
+        //!TRY ADDING IT THIS WAY TO LEFTBUTTON AND RIGHTBUTTON NEXT TIME
         <StyledHeaderButton onPress={onPress}>{children}</StyledHeaderButton>
     );
 };
