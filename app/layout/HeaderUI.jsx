@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import NavigationTop from "../homeScreen/NavigationTop";
 
-export const StyledUI = styled.View``;
+// export const StyledHeaderUI = styled.View``;
 
 const StyledHeaderButton = styled.TouchableOpacity`
     position: absolute;
@@ -25,9 +25,11 @@ const StyledHeaderButton = styled.TouchableOpacity`
     justify-content: center;
 `;
 
-export const HeaderButton = ({ children, onPress }) => {
+export const HeaderButton = ({ children, onPress, title }) => {
     return (
-        //!TRY ADDING IT THIS WAY TO LEFTBUTTON AND RIGHTBUTTON NEXT TIME
-        <StyledHeaderButton onPress={onPress}>{children}</StyledHeaderButton>
+        //!TRY ADDING ONPRESS THIS WAY TO LEFTBUTTON AND RIGHTBUTTON NEXT TIME
+        <StyledHeaderButton onPress={onPress}>
+            <Text style={{ fontSize: 16 }}>{title}</Text>
+        </StyledHeaderButton>
     );
 };

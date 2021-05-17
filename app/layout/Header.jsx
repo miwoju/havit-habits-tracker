@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
     ScrollView,
 } from "react-native";
+
 import NavigationTop from "../homeScreen/NavigationTop";
 
 const HeaderTitle = styled.Text`
@@ -28,28 +29,40 @@ const HeaderButtonRight = styled.TouchableOpacity`
     aspect-ratio: 1;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 `;
 
-const HeaderButtonLeft = styled.TouchableOpacity`
+const HeaderButton = styled.TouchableOpacity`
     position: absolute;
-    left: 10px;
     padding: 10px;
     aspect-ratio: 1;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 `;
 
-const Header = ({ title, buttonLeft, buttonRight, children }) => {
+const Header = ({ buttonLeft, buttonRight, children }) => {
     return (
         <NavigationTop>
-            {children}
-            {/* <HeaderButtonLeft onPress={() => buttonLeft.action()}>
-                <Text style={{ fontSize: 16 }}>{buttonLeft.title}</Text>
-            </HeaderButtonLeft> */}
-            <HeaderTitle>{title}</HeaderTitle>
-            {/* <HeaderButtonRight onPress={() => buttonRight.action()}>
-                <Text style={{ fontSize: 16 }}>{buttonRight.title}</Text>
-            </HeaderButtonRight> */}
+            {buttonLeft && (
+                <HeaderButton style={{ left: 10 }} onPress={buttonLeft.action}>
+                    <Text style={{ fontSize: 16 }}>{buttonLeft.title}</Text>
+                </HeaderButton>
+            )}
+            {/* <TouchableOpacity onPress={onPress}>
+                <HeaderButtonLeft>
+                    <Text style={{ fontSize: 16 }}>{title}</Text>
+                </HeaderButtonLeft>
+            </TouchableOpacity> */}
+            <HeaderTitle>{children}</HeaderTitle>
+            {buttonRight && (
+                <HeaderButton
+                    style={{ right: 10 }}
+                    onPress={buttonRight.action}
+                >
+                    <Text style={{ fontSize: 16 }}>{buttonRight.title}</Text>
+                </HeaderButton>
+            )}
         </NavigationTop>
     );
 };

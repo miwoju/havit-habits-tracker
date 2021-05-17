@@ -20,7 +20,7 @@ import {
     useGlobalStateContext,
 } from "../context/globalContext";
 import Header from "../layout/Header";
-import { HeaderButton } from "../layout/UI";
+import { HeaderButton } from "../layout/HeaderUI";
 
 const StyledAddHabits = styled.View`
     height: 100%;
@@ -38,19 +38,27 @@ const AddHabits = () => {
 
     return (
         <StyledAddHabits>
-            <Header title={"New Habit"}></Header>
-            <Text>{currentScreen}</Text>
-
-            <CancelButton
-                onPress={() =>
-                    globalDispatch({
-                        type: "SET_SCREEN",
-                        payload: "add_habits",
-                    })
-                }
+            <Header
+                buttonLeft={{
+                    title: "Cancel",
+                    action: () =>
+                        globalDispatch({
+                            type: "SET_SCREEN",
+                            payload: "add_habits",
+                        }),
+                }}
+                buttonRight={{
+                    title: "Save",
+                    action: () =>
+                        globalDispatch({
+                            type: "SET_SCREEN",
+                            payload: "add_habits",
+                        }),
+                }}
             >
-                <Text style={{ fontSize: 16 }}>Cancel</Text>
-            </CancelButton>
+                New Habit
+            </Header>
+            <Text>{currentScreen}</Text>
         </StyledAddHabits>
     );
 };
