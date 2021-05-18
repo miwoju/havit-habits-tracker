@@ -7,8 +7,7 @@ import {
     SafeAreaView,
     ImageBackground,
     Image,
-    TouchableOpacity,
-    TouchableHighlight,
+    TextInput,
     Pressable,
     StyleSheet,
 } from "react-native";
@@ -34,26 +33,69 @@ const Screen = styled.View`
     /* background-color: red; */
     background-color: #fff;
     flex: 1;
-    padding: 10px;
+    padding: 0 10px;
 `;
 
-const RepeatInput = styled.View`
+// const RepeatContainer = styled.View`
+//     background-color: ${(props) => props.theme.inputBackground};
+//     flex-direction: row;
+//     justify-content: space-around;
+//     width: 100%;
+//     /* margin: 0 10px; */
+//     border-radius: 6px;
+// `;
+
+const RepeatInputContainer = styled.View`
     background-color: ${(props) => props.theme.inputBackground};
     flex-direction: row;
-    justify-content: space-around;
     width: 100%;
-    /* margin: 0 10px; */
+    margin-top: 10px;
+    margin-bottom: 40px;
     border-radius: 6px;
 `;
 
-const RepeatInputButton = styled.Pressable`
+const RepeatButton = styled.Pressable`
     /* width: 100%; */
     justify-content: center;
     align-items: center;
     flex: 1;
-    height: 50px;
-    margin: 5px;
+    /* height: 50px; */
+    margin-vertical: 5px;
+    margin-horizontal: 5px;
     border-radius: 6px;
+    height: 45px;
+`;
+
+const InputLabel = styled.Text`
+    font-weight: bold;
+    margin-vertical: 5px;
+    padding-horizontal: 20px;
+`;
+
+const InputContainer = styled.View`
+    flex-direction: row;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 40px;
+    border-radius: 6px;
+    padding-horizontal: 10px;
+`;
+
+const HabitNameInput = styled.TextInput`
+    background-color: ${(props) => props.theme.inputBackground};
+    height: 45px;
+    padding: 0 10px;
+    border-radius: 6px;
+    flex: 1;
+    margin: 0 5px;
+`;
+
+const HabitImageButton = styled.View`
+    background-color: ${(props) => props.theme.inputBackground};
+    padding: 0 22px;
+    border-radius: 6px;
+    justify-content: center;
+    margin: 0 5px;
 `;
 
 const AddHabits = () => {
@@ -96,14 +138,25 @@ const AddHabits = () => {
                 New Habit
             </Header>
             <Screen>
-                <RepeatInput>
-                    <RepeatInputButton {...RepeatInputButtonProps(true)}>
+                <RepeatInputContainer
+                // style={{ paddingHorizontal: 0 }}
+                >
+                    <RepeatButton {...RepeatInputButtonProps(true)}>
                         <Text style={{ fontWeight: "bold" }}>Repeat Habit</Text>
-                    </RepeatInputButton>
-                    <RepeatInputButton {...RepeatInputButtonProps(false)}>
+                    </RepeatButton>
+                    <RepeatButton {...RepeatInputButtonProps(false)}>
                         <Text style={{ fontWeight: "bold" }}>One-time</Text>
-                    </RepeatInputButton>
-                </RepeatInput>
+                    </RepeatButton>
+                </RepeatInputContainer>
+                <InputLabel>Name the habit:</InputLabel>
+                <InputContainer>
+                    <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
+                    <HabitImageButton>
+                        <Text style={{ fontSize: 12 }}>Gallery</Text>
+                    </HabitImageButton>
+                </InputContainer>
+                <InputLabel>Pick icon and color:</InputLabel>
+                <InputContainer></InputContainer>
             </Screen>
         </StyledAddHabits>
     );
