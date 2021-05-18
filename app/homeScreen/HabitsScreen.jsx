@@ -19,11 +19,12 @@ import { useDataStateContext } from "../context/dataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import NavigationTop from "./NavigationTop";
 import Header from "../layout/Header";
+import { useGlobalDispatchContext } from "../context/globalContext";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const StyledHabitsTab = styled.View`
+const StyledHabitsScreen = styled.View`
     flex: 1;
 `;
 
@@ -92,8 +93,9 @@ const HabitStreaks = styled.Text`
 //     justify-content: center;
 // `;
 
-const HabitsTab = () => {
+const HabitsScreen = () => {
     const { habitsData } = useDataStateContext();
+    const globalDispatch = useGlobalDispatchContext();
 
     const renderItem = ({ item }) => (
         <HabitItem
@@ -117,8 +119,19 @@ const HabitsTab = () => {
         </HabitItem>
     );
     return (
-        <StyledHabitsTab>
-            {/* <Header title={"My Habits"} buttonRight={"Add"} /> */}
+        <StyledHabitsScreen>
+            <Header
+                buttonRight={{
+                    title: "ADD",
+                    action: () =>
+                        globalDispatch({
+                            type: "SET_MODAL",
+                            payload: "add_habits",
+                        }),
+                }}
+            >
+                My Habits
+            </Header>
             <HabitsCategoryBox>
                 <TouchableOpacity>
                     <HabitsCategoryItem>Morning</HabitsCategoryItem>
@@ -139,8 +152,8 @@ const HabitsTab = () => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             ></FlatList>
-        </StyledHabitsTab>
+        </StyledHabitsScreen>
     );
 };
 
-export default HabitsTab;
+export default HabitsScreen;

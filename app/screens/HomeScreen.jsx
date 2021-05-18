@@ -5,8 +5,8 @@ import { Text, View, SafeAreaView, ImageBackground, Image } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
 
-import TodayTab from "../homeScreen/TodayTab";
-import HabitsTab from "../homeScreen/HabitsTab";
+import TodayScreen from "../homeScreen/TodayScreen";
+import HabitScreen from "../homeScreen/HabitsScreen";
 
 import { useGlobalStateContext } from "../context/globalContext";
 
@@ -25,8 +25,8 @@ const HomeScreen = () => {
         <StyledHomeScreen>
             {/* <NavigationTop /> */}
             <View flex={1}>
-                {currentTab === "today" && <TodayTab />}
-                {currentTab === "habits" && <HabitsTab />}
+                {currentTab === "today" && <TodayScreen />}
+                {currentTab === "habits" && <HabitScreen />}
             </View>
             <DockBottom />
         </StyledHomeScreen>

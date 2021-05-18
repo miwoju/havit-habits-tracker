@@ -7,6 +7,7 @@ const initialState = {
     currentTab: "today",
     isAppLoaded: false,
     currentScreen: "home",
+    isModal: false,
 };
 
 const globalReducer = (state, action) => {
@@ -30,6 +31,13 @@ const globalReducer = (state, action) => {
             return {
                 ...state,
                 currentScreen: action.payload,
+                isModal: false,
+            };
+        }
+        case "SET_MODAL": {
+            return {
+                ...state,
+                isModal: action.payload,
             };
         }
         default: {

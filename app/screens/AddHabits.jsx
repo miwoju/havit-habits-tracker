@@ -10,12 +10,16 @@ import {
     TextInput,
     Pressable,
     StyleSheet,
+    FlatList,
+    Dimensions,
+    ScrollView,
+    Modal,
 } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
 
-import TodayTab from "../homeScreen/TodayTab";
-import HabitsTab from "../homeScreen/HabitsTab";
+import TodayTab from "../homeScreen/TodayScreen";
+import HabitsTab from "../homeScreen/HabitsScreen";
 import colorsList from "../../assets/icons-and-colors/colorsList.json";
 
 import {
@@ -24,34 +28,28 @@ import {
 } from "../context/globalContext";
 import Header from "../layout/Header";
 
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
 const StyledAddHabits = styled.View`
+    background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
     width: 100%;
     position: relative;
 `;
 
 const Screen = styled.View`
-    /* background-color: red; */
     background-color: #fff;
     flex: 1;
     padding: 0 10px;
 `;
-
-// const RepeatContainer = styled.View`
-//     background-color: ${(props) => props.theme.inputBackground};
-//     flex-direction: row;
-//     justify-content: space-around;
-//     width: 100%;
-//     /* margin: 0 10px; */
-//     border-radius: 6px;
-// `;
 
 const RepeatInputContainer = styled.View`
     background-color: ${(props) => props.theme.inputBackground};
     flex-direction: row;
     width: 100%;
     margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border-radius: 6px;
 `;
 
@@ -76,14 +74,13 @@ const InputLabelContainer = styled.View`
     justify-content: space-between;
     align-items: center;
     margin-horizontal: 20px;
-    margin-vertical: 5px;
+    margin-vertical: 10px;
 `;
 
 const InputContainer = styled.View`
     flex-direction: row;
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border-radius: 6px;
     padding-horizontal: 10px;
 `;
@@ -130,75 +127,124 @@ const AddHabits = () => {
         ],
     });
 
+    const renderItem = ({ item }) => (
+        <View
+            style={{
+                alignItems: "center",
+                width: windowWidth / 6 - 10,
+                aspectRatio: 1,
+                padding: 6,
+            }}
+        >
+            <Pressable
+                onPress={() => setIconColor(item)}
+                style={[
+                    {
+                        backgroundColor: item,
+                        borderRadius: 50,
+                        borderWidth: 2,
+                        borderColor: "transparent",
+                        width: "100%",
+                        aspectRatio: 1,
+                    },
+                    item === iconColor && { borderColor: "black" },
+                ]}
+            ></Pressable>
+        </View>
+    );
+
     return (
-        <StyledAddHabits>
-            <Header
-                buttonLeft={{
-                    title: "Cancel",
-                    action: () =>
-                        globalDispatch({
-                            type: "SET_SCREEN",
-                            payload: "add_habits",
-                        }),
-                }}
-                buttonRight={{
-                    title: "Save",
-                    action: () =>
-                        globalDispatch({
-                            type: "SET_SCREEN",
-                            payload: "home",
-                        }),
-                }}
-            >
-                New Habit
-            </Header>
-            <Screen>
-                <RepeatInputContainer
-                // style={{ paddingHorizontal: 0 }}
+        <Modal animationType="slide">
+            <StyledAddHabits>
+                <Header
+                    buttonLeft={{
+                        title: "Cancel",
+                        action: () =>
+                            globalDispatch({
+                                type: "SET_SCREEN",
+                                payload: "home",
+                            }),
+                    }}
+                    buttonRight={{
+                        title: "Save",
+                        action: () =>
+                            globalDispatch({
+                                type: "SET_SCREEN",
+                                payload: "home",
+                            }),
+                    }}
                 >
-                    <RepeatButton {...RepeatInputButtonProps(true)}>
-                        <Text style={{ fontWeight: "bold" }}>Repeat Habit</Text>
-                    </RepeatButton>
-                    <RepeatButton {...RepeatInputButtonProps(false)}>
-                        <Text style={{ fontWeight: "bold" }}>One-time</Text>
-                    </RepeatButton>
-                </RepeatInputContainer>
-                <InputLabelContainer>
-                    <Text style={{ fontWeight: "bold" }}>Name the habit:</Text>
-                </InputLabelContainer>
-                <InputContainer>
-                    <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
-                    <HabitImageButton>
-                        <Text style={{ fontSize: 12 }}>Gallery</Text>
-                    </HabitImageButton>
-                </InputContainer>
-                <InputLabelContainer>
-                    <InputLabel>Pick icon and color:</InputLabel>
-                    <HabitIconPreview
-                        style={{ backgroundColor: iconColor }}
-                    ></HabitIconPreview>
-                </InputLabelContainer>
-                <InputContainer>
-                    {colorsList.map((color, index) => (
-                        <Pressable
-                            onPress={() => setIconColor(color)}
-                            key={index}
-                            style={[
-                                {
-                                    backgroundColor: color,
-                                    width: 45,
-                                    height: 45,
-                                    borderRadius: 50,
-                                    borderWidth: 2,
-                                    borderColor: "transparent",
-                                },
-                                color === iconColor && { borderColor: "black" },
-                            ]}
-                        ></Pressable>
-                    ))}
-                </InputContainer>
-            </Screen>
-        </StyledAddHabits>
+                    New Habit
+                </Header>
+                <Screen>
+                    <RepeatInputContainer
+                    // style={{ paddingHorizontal: 0 }}
+                    >
+                        <RepeatButton {...RepeatInputButtonProps(true)}>
+                            <Text
+                                style={{
+                                    fontWeight: "bold",
+                                    color: repeatHabit ? "#000" : "#bcbcbc",
+                                }}
+                            >
+                                Repeat Habit
+                            </Text>
+                        </RepeatButton>
+                        <RepeatButton {...RepeatInputButtonProps(false)}>
+                            <Text
+                                style={{
+                                    fontWeight: "bold",
+                                    color: !repeatHabit ? "#000" : "#bcbcbc",
+                                }}
+                            >
+                                One-time
+                            </Text>
+                        </RepeatButton>
+                    </RepeatInputContainer>
+                    <InputLabelContainer>
+                        <Text
+                            style={{
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Name the habit:
+                        </Text>
+                    </InputLabelContainer>
+                    <InputContainer>
+                        <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
+                        <HabitImageButton>
+                            <Text style={{ fontSize: 12 }}>Gallery</Text>
+                        </HabitImageButton>
+                    </InputContainer>
+                    <InputLabelContainer
+                        style={{
+                            marginBottom: 20,
+                        }}
+                    >
+                        <InputLabel>Pick icon and color:</InputLabel>
+                        <HabitIconPreview
+                            style={{ backgroundColor: iconColor }}
+                        ></HabitIconPreview>
+                    </InputLabelContainer>
+                    <InputContainer style={{ height: windowWidth - 50 }}>
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false}
+                            style={{
+                                transform: [
+                                    { rotate: "-90deg" },
+                                    { scaleX: -1 },
+                                ],
+                            }}
+                            numColumns={3}
+                            data={colorsList}
+                            renderItem={renderItem}
+                            keyExtractor={(item) => item}
+                        ></FlatList>
+                    </InputContainer>
+                </Screen>
+            </StyledAddHabits>
+        </Modal>
     );
 };
 

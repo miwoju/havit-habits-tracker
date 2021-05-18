@@ -22,9 +22,9 @@ import {
 } from "../context/dataContext";
 
 import NavigationTop from "./NavigationTop";
-import HabitsButton from "./HabitsButton";
+import TodayButton from "./TodayButton";
 
-const StyledMyHabits = styled.View`
+const StyledTodayScreen = styled.View`
     flex: 1;
 `;
 
@@ -56,7 +56,7 @@ const SearchButton = styled.View`
 
 // const HabitsItem = ({ title }) => <View></View>;
 
-const MyHabits = () => {
+const TodayScreen = () => {
     const [text, setText] = useState("");
 
     const { habitsData } = useDataStateContext();
@@ -67,10 +67,10 @@ const MyHabits = () => {
     }, []);
 
     const renderItem = ({ item, index }) => (
-        <HabitsButton item={item} index={index} />
+        <TodayButton item={item} index={index} />
     );
     return (
-        <StyledMyHabits>
+        <StyledTodayScreen>
             <NavigationTop height="60px">
                 <InputSearch
                     placeholder="Search my Habits!"
@@ -95,8 +95,8 @@ const MyHabits = () => {
             >
                 <Text>RESET</Text>
             </TouchableOpacity>
-        </StyledMyHabits>
+        </StyledTodayScreen>
     );
 };
 
-export default MyHabits;
+export default TodayScreen;

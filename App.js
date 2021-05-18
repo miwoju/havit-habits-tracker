@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { ThemeProvider } from "styled-components";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 import {
     GlobalProvider,
+    useGlobalDispatchContext,
     useGlobalStateContext,
 } from "./app/context/globalContext";
 import { DataProvider } from "./app/context/dataContext";
@@ -28,7 +29,7 @@ const StyledApp = styled.SafeAreaView`
     /* padding-top: ${StatusBar.currentHeight}; */
 `;
 
-export default function App() {
+function App() {
     // const colors =
     //     "https://coolors.co/ffadad-ffd6a5-fdffb6-caffbf-9bf6ff-a0c4ff-bdb2ff-ffc6ff-fffffc";
 
@@ -39,20 +40,25 @@ export default function App() {
         text: "#485056",
         textSecondary: "#B5A18C",
     };
-    const { isLoggedIn, currentScreen } = useGlobalStateContext();
+    const { isLoggedIn, currentScreen, isModal } = useGlobalStateContext();
+    const globalDispatch = useGlobalDispatchContext();
 
+    return (
+        <ThemeProvider theme={lightTheme}>
+            <StatusBar />
+            <StyledApp style={styles.container}>
+                <HomeScreen />
+                {isModal === "add_habits" && <AddHabits />}
+            </StyledApp>
+        </ThemeProvider>
+    );
+}
+
+export default function Root() {
     return (
         <GlobalProvider>
             <DataProvider>
-                <ThemeProvider theme={lightTheme}>
-                    <StatusBar />
-                    <StyledApp style={styles.container}>
-                        {/* {!isLoggedIn && <WelcomeScreen />} */}
-                        {/* {currentScreen === "home" && <HomeScreen />}
-                        {currentScreen === "add_habits" && <AddHabits />} */}
-                        <AddHabits />
-                    </StyledApp>
-                </ThemeProvider>
+                <App />
             </DataProvider>
         </GlobalProvider>
     );
@@ -66,7 +72,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
-
         paddingTop: 28,
     },
 });

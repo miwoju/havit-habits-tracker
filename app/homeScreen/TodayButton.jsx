@@ -25,15 +25,15 @@ import {
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const StyledHabitButton = styled.View`
+const StyledTodayButton = styled.View`
     align-items: center;
     /* justify-content: center; */
-    width: ${windowWidth / 4};
+    width: ${windowWidth / 4}px;
     aspect-ratio: 1;
     margin-bottom: 30px;
 `;
 
-const HabitButtonIcon = styled.Pressable`
+const TodayButtonIcon = styled.Pressable`
     /* border: 3px solid #ffadad; */
 
     /* background-color: #caffbf; */
@@ -55,7 +55,7 @@ const HabitIMG = styled(FontAwesomeIcon)`
     color: ${(props) => props.theme.text};
 `;
 
-const HabitButtonLabel = styled.Text`
+const TodayButtonLabel = styled.Text`
     font-size: 12px;
     margin-top: 4px;
     text-align: center;
@@ -88,7 +88,7 @@ const ProgressStreakText = styled.Text`
     font-size: 24px;
     font-weight: bold;
 `;
-const HabitsButton = ({ item, index }) => {
+const TodayButton = ({ item, index }) => {
     const opacity = useState(new Animated.Value(0))[0];
 
     const { habitsData } = useDataStateContext();
@@ -137,8 +137,8 @@ const HabitsButton = ({ item, index }) => {
     };
 
     return (
-        <StyledHabitButton title={item.title}>
-            <HabitButtonIcon
+        <StyledTodayButton title={item.title}>
+            <TodayButtonIcon
                 onPress={() => onButtonPress(item.id, index)}
                 hitSlop={10}
                 progress={item.progress >= 100}
@@ -169,10 +169,10 @@ const HabitsButton = ({ item, index }) => {
                     <ProgressStreakText>{item.streak}</ProgressStreakText>
                 </ProgressStreak>
                 <HabitIMG icon={item.icon} size={32} />
-            </HabitButtonIcon>
-            <HabitButtonLabel numberOfLines={2}>{item.title}</HabitButtonLabel>
-        </StyledHabitButton>
+            </TodayButtonIcon>
+            <TodayButtonLabel numberOfLines={2}>{item.title}</TodayButtonLabel>
+        </StyledTodayButton>
     );
 };
 
-export default HabitsButton;
+export default TodayButton;

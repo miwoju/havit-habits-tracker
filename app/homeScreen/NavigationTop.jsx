@@ -11,17 +11,14 @@ import {
 } from "react-native";
 
 const StyledNavigationTop = styled.View`
-    background-color: white;
+    background-color: #fff;
     width: 100%;
-    height: ${(props) => (props.height ? props.height : "40px")};
+    height: ${(props) => (props.height ? props.height : "50px")};
     position: relative;
-    /* flex: 1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0; */
     flex-direction: row;
     align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 `;
 
 const NavigationTop = ({ height, children }) => {

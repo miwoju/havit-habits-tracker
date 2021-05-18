@@ -22,16 +22,6 @@ const HeaderTitle = styled.Text`
     font-size: 18px;
 `;
 
-const HeaderButtonRight = styled.TouchableOpacity`
-    position: absolute;
-    right: 10px;
-    padding: 10px;
-    aspect-ratio: 1;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-`;
-
 const HeaderButton = styled.TouchableOpacity`
     position: absolute;
     padding: 10px;
