@@ -16,6 +16,7 @@ import NavigationTop from "../homeScreen/NavigationTop";
 
 import TodayTab from "../homeScreen/TodayTab";
 import HabitsTab from "../homeScreen/HabitsTab";
+import colorsList from "../../assets/icons-and-colors/colorsList.json";
 
 import {
     useGlobalDispatchContext,
@@ -68,8 +69,14 @@ const RepeatButton = styled.Pressable`
 
 const InputLabel = styled.Text`
     font-weight: bold;
+`;
+
+const InputLabelContainer = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-horizontal: 20px;
     margin-vertical: 5px;
-    padding-horizontal: 20px;
 `;
 
 const InputContainer = styled.View`
@@ -98,10 +105,18 @@ const HabitImageButton = styled.View`
     margin: 0 5px;
 `;
 
+const HabitIconPreview = styled.View`
+    width: 45px;
+    height: 45px;
+    border: 2px solid black;
+    border-radius: 50px;
+`;
+
 const AddHabits = () => {
     const globalDispatch = useGlobalDispatchContext();
     const { currentScreen } = useGlobalStateContext();
     const [repeatHabit, setRepeatHabit] = useState(true);
+    const [iconColor, setIconColor] = useState(colorsList[2]);
 
     const RepeatInputButtonProps = (isRepeatHabit) => ({
         onPress: () => setRepeatHabit(isRepeatHabit),
@@ -148,15 +163,40 @@ const AddHabits = () => {
                         <Text style={{ fontWeight: "bold" }}>One-time</Text>
                     </RepeatButton>
                 </RepeatInputContainer>
-                <InputLabel>Name the habit:</InputLabel>
+                <InputLabelContainer>
+                    <Text style={{ fontWeight: "bold" }}>Name the habit:</Text>
+                </InputLabelContainer>
                 <InputContainer>
                     <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
                     <HabitImageButton>
                         <Text style={{ fontSize: 12 }}>Gallery</Text>
                     </HabitImageButton>
                 </InputContainer>
-                <InputLabel>Pick icon and color:</InputLabel>
-                <InputContainer></InputContainer>
+                <InputLabelContainer>
+                    <InputLabel>Pick icon and color:</InputLabel>
+                    <HabitIconPreview
+                        style={{ backgroundColor: iconColor }}
+                    ></HabitIconPreview>
+                </InputLabelContainer>
+                <InputContainer>
+                    {colorsList.map((color, index) => (
+                        <Pressable
+                            onPress={() => setIconColor(color)}
+                            key={index}
+                            style={[
+                                {
+                                    backgroundColor: color,
+                                    width: 45,
+                                    height: 45,
+                                    borderRadius: 50,
+                                    borderWidth: 2,
+                                    borderColor: "transparent",
+                                },
+                                color === iconColor && { borderColor: "black" },
+                            ]}
+                        ></Pressable>
+                    ))}
+                </InputContainer>
             </Screen>
         </StyledAddHabits>
     );
