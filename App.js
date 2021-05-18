@@ -34,6 +34,7 @@ export default function App() {
 
     const lightTheme = {
         backgroundColor: "#f5f5f5",
+        inputBackground: "#f4f5f7",
         // backgroundColor: "#e9e9e9",
         text: "#485056",
         textSecondary: "#B5A18C",

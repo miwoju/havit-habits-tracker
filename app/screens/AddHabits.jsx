@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import {
@@ -8,6 +8,9 @@ import {
     ImageBackground,
     Image,
     TouchableOpacity,
+    TouchableHighlight,
+    Pressable,
+    StyleSheet,
 } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
@@ -20,7 +23,6 @@ import {
     useGlobalStateContext,
 } from "../context/globalContext";
 import Header from "../layout/Header";
-import { HeaderButton } from "../layout/HeaderUI";
 
 const StyledAddHabits = styled.View`
     height: 100%;
@@ -28,13 +30,48 @@ const StyledAddHabits = styled.View`
     position: relative;
 `;
 
-const CancelButton = styled(HeaderButton)`
-    right: 10px;
+const Screen = styled.View`
+    /* background-color: red; */
+    background-color: #fff;
+    flex: 1;
+    padding: 10px;
+`;
+
+const RepeatInput = styled.View`
+    background-color: ${(props) => props.theme.inputBackground};
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    /* margin: 0 10px; */
+    border-radius: 6px;
+`;
+
+const RepeatInputButton = styled.Pressable`
+    /* width: 100%; */
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 50px;
+    margin: 5px;
+    border-radius: 6px;
 `;
 
 const AddHabits = () => {
     const globalDispatch = useGlobalDispatchContext();
     const { currentScreen } = useGlobalStateContext();
+    const [repeatHabit, setRepeatHabit] = useState(true);
+
+    const RepeatInputButtonProps = (isRepeatHabit) => ({
+        onPress: () => setRepeatHabit(isRepeatHabit),
+        style: ({ pressed }) => [
+            pressed && {
+                backgroundColor: "lightgrey",
+            },
+            isRepeatHabit === repeatHabit && {
+                backgroundColor: "orange",
+            },
+        ],
+    });
 
     return (
         <StyledAddHabits>
@@ -52,13 +89,22 @@ const AddHabits = () => {
                     action: () =>
                         globalDispatch({
                             type: "SET_SCREEN",
-                            payload: "add_habits",
+                            payload: "home",
                         }),
                 }}
             >
                 New Habit
             </Header>
-            <Text>{currentScreen}</Text>
+            <Screen>
+                <RepeatInput>
+                    <RepeatInputButton {...RepeatInputButtonProps(true)}>
+                        <Text style={{ fontWeight: "bold" }}>Repeat Habit</Text>
+                    </RepeatInputButton>
+                    <RepeatInputButton {...RepeatInputButtonProps(false)}>
+                        <Text style={{ fontWeight: "bold" }}>One-time</Text>
+                    </RepeatInputButton>
+                </RepeatInput>
+            </Screen>
         </StyledAddHabits>
     );
 };
