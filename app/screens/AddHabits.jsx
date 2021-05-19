@@ -49,7 +49,7 @@ const RepeatInputContainer = styled.View`
     flex-direction: row;
     width: 100%;
     margin-top: 10px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     border-radius: 6px;
 `;
 
@@ -207,6 +207,7 @@ const AddHabits = () => {
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingTop: 30 }}
                     >
                         <InputLabelContainer>
                             <Text
@@ -218,7 +219,7 @@ const AddHabits = () => {
                             </Text>
                         </InputLabelContainer>
                         <InputContainer>
-                            <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
+                            <HabitNameInput placeholder="Running, Eat Breakfast..."></HabitNameInput>
                             <HabitButton addPadding>
                                 <Text
                                     style={{
@@ -311,6 +312,9 @@ const AddHabits = () => {
                                 Motivate yourself with one sentence:
                             </InputLabel>
                         </InputLabelContainer>
+                        <InputContainer>
+                            <HabitNameInput placeholder="To build a new habit, To succeed..."></HabitNameInput>
+                        </InputContainer>
                     </ScrollView>
                 </Screen>
             </StyledAddHabits>
