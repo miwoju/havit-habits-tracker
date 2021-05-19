@@ -94,12 +94,13 @@ const HabitNameInput = styled.TextInput`
     margin: 0 5px;
 `;
 
-const HabitImageButton = styled.View`
+const HabitButton = styled.View`
     background-color: ${(props) => props.theme.inputBackground};
-    padding: 0 22px;
     border-radius: 6px;
     justify-content: center;
     margin: 0 5px;
+    ${(props) =>
+        props.addPadding ? `padding: 0 22px;` : `padding: 6px 10px;`};
 `;
 
 const HabitIconPreview = styled.View`
@@ -113,7 +114,9 @@ const AddHabits = () => {
     const globalDispatch = useGlobalDispatchContext();
     const { currentScreen } = useGlobalStateContext();
     const [repeatHabit, setRepeatHabit] = useState(true);
-    const [iconColor, setIconColor] = useState(colorsList[2]);
+    const [repeatDuration, setRepeatDuration] = useState("Daily");
+    // const [iconColor, setIconColor] = useState(colorsList[2]);
+    const [iconColor, setIconColor] = useState(2);
 
     const RepeatInputButtonProps = (isRepeatHabit) => ({
         onPress: () => setRepeatHabit(isRepeatHabit),
@@ -127,7 +130,7 @@ const AddHabits = () => {
         ],
     });
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item, index }) => (
         <View
             style={{
                 alignItems: "center",
@@ -137,17 +140,17 @@ const AddHabits = () => {
             }}
         >
             <Pressable
-                onPress={() => setIconColor(item)}
+                onPress={() => setIconColor(index)}
                 style={[
                     {
-                        backgroundColor: item,
+                        backgroundColor: colorsList[index],
                         borderRadius: 50,
                         borderWidth: 2,
                         borderColor: "transparent",
                         width: "100%",
                         aspectRatio: 1,
                     },
-                    item === iconColor && { borderColor: "black" },
+                    index === iconColor && { borderColor: "black" },
                 ]}
             ></Pressable>
         </View>
@@ -201,47 +204,114 @@ const AddHabits = () => {
                             </Text>
                         </RepeatButton>
                     </RepeatInputContainer>
-                    <InputLabelContainer>
-                        <Text
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        <InputLabelContainer>
+                            <Text
+                                style={{
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Name the habit:
+                            </Text>
+                        </InputLabelContainer>
+                        <InputContainer>
+                            <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
+                            <HabitButton addPadding>
+                                <Text
+                                    style={{
+                                        fontSize: 12,
+                                    }}
+                                >
+                                    Gallery
+                                </Text>
+                            </HabitButton>
+                        </InputContainer>
+                        <InputLabelContainer
                             style={{
-                                fontWeight: "bold",
+                                marginBottom: 20,
                             }}
                         >
-                            Name the habit:
-                        </Text>
-                    </InputLabelContainer>
-                    <InputContainer>
-                        <HabitNameInput placeholder="Eg: running, eat breakfast, etc."></HabitNameInput>
-                        <HabitImageButton>
-                            <Text style={{ fontSize: 12 }}>Gallery</Text>
-                        </HabitImageButton>
-                    </InputContainer>
-                    <InputLabelContainer
-                        style={{
-                            marginBottom: 20,
-                        }}
-                    >
-                        <InputLabel>Pick icon and color:</InputLabel>
-                        <HabitIconPreview
-                            style={{ backgroundColor: iconColor }}
-                        ></HabitIconPreview>
-                    </InputLabelContainer>
-                    <InputContainer style={{ height: windowWidth - 50 }}>
-                        <FlatList
-                            showsVerticalScrollIndicator={false}
-                            showsHorizontalScrollIndicator={false}
-                            style={{
-                                transform: [
-                                    { rotate: "-90deg" },
-                                    { scaleX: -1 },
-                                ],
-                            }}
-                            numColumns={3}
-                            data={colorsList}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item}
-                        ></FlatList>
-                    </InputContainer>
+                            <InputLabel>Pick icon and color:</InputLabel>
+                            <HabitIconPreview
+                                style={{
+                                    backgroundColor: colorsList[iconColor],
+                                }}
+                            ></HabitIconPreview>
+                        </InputLabelContainer>
+                        <InputContainer>
+                            <ScrollView
+                                horizontal
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <FlatList
+                                    showsVerticalScrollIndicator={false}
+                                    showsHorizontalScrollIndicator={false}
+                                    numColumns={Math.ceil(
+                                        colorsList.length / 3
+                                    )}
+                                    data={colorsList}
+                                    renderItem={renderItem}
+                                    keyExtractor={(item, index) => index}
+                                ></FlatList>
+                            </ScrollView>
+                        </InputContainer>
+                        <InputLabelContainer>
+                            <InputLabel>What time of day:</InputLabel>
+                        </InputLabelContainer>
+                        <InputContainer>
+                            <ScrollView
+                                horizontal
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                {[
+                                    "WakeUp",
+                                    "Morning",
+                                    "Noon",
+                                    "Afternoon",
+                                    "Evening",
+                                    "BeforeBed",
+                                ].map((time, index) => (
+                                    <HabitButton key={index}>
+                                        <Text>{time}</Text>
+                                    </HabitButton>
+                                ))}
+                            </ScrollView>
+                        </InputContainer>
+                        <InputLabelContainer>
+                            <InputLabel>I want to repeat:</InputLabel>
+                        </InputLabelContainer>
+                        <RepeatInputContainer>
+                            {["Daily", "Weekly", "Monthly"].map(
+                                (repeatType) => (
+                                    <RepeatButton
+                                        onPress={() =>
+                                            setRepeatDuration(repeatType)
+                                        }
+                                        style={
+                                            repeatDuration === repeatType && {
+                                                backgroundColor: "#fff",
+                                            }
+                                        }
+                                    >
+                                        <Text>{repeatType}</Text>
+                                    </RepeatButton>
+                                )
+                            )}
+                        </RepeatInputContainer>
+                        <InputLabelContainer>
+                            <InputLabel>Set remind time:</InputLabel>
+                        </InputLabelContainer>
+                        <InputLabelContainer>
+                            <InputLabel>
+                                Motivate yourself with one sentence:
+                            </InputLabel>
+                        </InputLabelContainer>
+                    </ScrollView>
                 </Screen>
             </StyledAddHabits>
         </Modal>
