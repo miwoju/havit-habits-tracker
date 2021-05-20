@@ -7,13 +7,13 @@ const initialState = {
     habitsData: [
         {
             id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-            title:
-                "Drink Coffee In The Morning Today Because That's The Best Thing",
+            title: "Drink Coffee In The Morning Today Because That's The Best Thing",
             icon: "coffee",
             streak: 5,
             goal: 10,
             completed: false,
             progress: 50,
+            color: "#ffc6ff",
         },
         {
             id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
@@ -23,6 +23,7 @@ const initialState = {
             goal: 10,
             completed: false,
             progress: 0,
+            color: "#bdb2ff",
         },
         {
             id: "58694a0f-3da1-471f-bd96-145571e29d72",
@@ -32,6 +33,7 @@ const initialState = {
             goal: 200,
             completed: false,
             progress: 0,
+            color: "#a0c4ff",
         },
         {
             id: "58694a0f-3da1-471f-bd96-1455571e29d72",
@@ -41,76 +43,77 @@ const initialState = {
             goal: 20,
             completed: false,
             progress: 0,
+            color: "#9bf6ff",
         },
         {
             id: "58694a0f-3da1-471f-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 2500,
             completed: false,
             progress: 0,
+            color: "#caffbf",
         },
         {
             id: "58694a0rf-3da1-471f-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 3000,
             completed: false,
             progress: 0,
+            color: "#fdffb6",
         },
         {
             id: "58694a20f-3da1-471f-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 3000,
             completed: false,
             progress: 0,
+            color: "#ffd6a5",
         },
         {
             id: "58694af0f-3da1-471f-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 3000,
             completed: false,
             progress: 0,
+            color: "#ffc6ff",
         },
         {
             id: "58694a0f-3da1g-471f-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 3000,
             completed: false,
             progress: 0,
+            color: "#ffc6ff",
         },
         {
             id: "58694a0f-3da1-471fw-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             goal: 7,
             completed: false,
             progress: 0,
+            color: "#bdb2ff",
         },
         {
             id: "58694a0f-3da1-471fg-bd96-1455471e29d72",
-            title:
-                "Read A Book Because That's One Of The Best Things You Can Do",
+            title: "Read A Book Because That's One Of The Best Things You Can Do",
             icon: "book-open",
             streak: 2401,
             // goal: 7,
             completed: false,
             progress: 0,
+            color: "#a0c4ff",
         },
     ],
 };

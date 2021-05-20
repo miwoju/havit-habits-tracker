@@ -14,7 +14,7 @@ import {
     ScrollView,
 } from "react-native";
 
-import NavigationTop from "../homeScreen/NavigationTop";
+import NavigationTop from "./NavigationTop";
 
 const HeaderTitle = styled.Text`
     flex: 1;

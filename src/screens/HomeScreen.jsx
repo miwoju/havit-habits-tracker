@@ -5,8 +5,8 @@ import { Text, View, SafeAreaView, ImageBackground, Image } from "react-native";
 import DockBottom from "../homeScreen/DockBottom";
 import NavigationTop from "../homeScreen/NavigationTop";
 
-import TodayScreen from "../homeScreen/TodayScreen";
-import HabitScreen from "../homeScreen/HabitsScreen";
+import TodayScreen from "./Home/Today";
+import HabitScreen from "./Home/Habits";
 
 import { useGlobalStateContext } from "../context/globalContext";
 

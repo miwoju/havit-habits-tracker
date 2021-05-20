@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import * as Animatable from "react-native-animatable";
 
 import {
     Animated,
@@ -20,7 +21,7 @@ import {
 import {
     useDataDispatchContext,
     useDataStateContext,
-} from "../context/dataContext";
+} from "../../context/dataContext";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -46,7 +47,10 @@ const TodayButtonIcon = styled.Pressable`
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 1px solid ${(props) => (props.progress ? "#000" : "transparent")};
+    border: 2px solid ${(props) => props.color};
+
+    /* border: 1px solid ${(props) =>
+        props.progress ? "#000" : "transparent"}; */
 `;
 
 const HabitIMG = styled(FontAwesomeIcon)`
@@ -62,39 +66,59 @@ const TodayButtonLabel = styled.Text`
     margin-horizontal: 5px;
 `;
 
-const ProgressMeter = styled.View`
-    background-color: ${(props) => props.color};
-    opacity: ${(props) => (props.completed ? 1 : 0.4)};
+const ProgressMeter = styled(Animatable.View)`
+    /* background-color: ${(props) => props.color}; */
+    /* opacity: ${(props) => (props.completed ? 1 : 0.8)}; */
     width: 100%;
-    height: ${(props) => props.progress}%;
+    opacity: 0.3;
+    /* height: ${(props) => props.progress}%; */
+    height: 100%;
     position: absolute;
     bottom: 0;
 `;
 
-const ProgressStreak = styled(Animated.View)`
-    background-color: #fdffb6;
+const ProgressStreak = styled(Animatable.View)`
+    background-color: ${(props) => props.color};
+    /* opacity: ${(props) => (props.completed ? 1 : 0.8)}; */
     width: 100%;
-    height: 100%;
+
+    height: ${(props) => (props.completed ? 100 : 0)}%;
+
     position: absolute;
-    z-index: 9;
     align-items: center;
     justify-content: center;
-    border: 2px solid ${(props) => props.theme.text};
-    border-radius: 50px;
+    bottom: 0;
 `;
 
-const ProgressStreakText = styled.Text`
+// const ProgressStreak = styled(Animatable.View)`
+//     /* background-color: rgba(253, 255, 182, 0.9); */
+//     background-color: ${(props) => props.color};
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+//     z-index: 9;
+//     align-items: center;
+//     justify-content: center;
+//     border: 2px solid ${(props) => props.theme.text};
+//     border-radius: 50px;
+//     z-index: 0;
+// `;
+
+const ProgressStreakText = styled(Animatable.Text)`
     color: ${(props) => props.theme.text};
     font-size: 24px;
     font-weight: bold;
+    position: absolute;
+    opacity: ${(props) => (props.completed ? 1 : 0)};
 `;
+
 const TodayButton = ({ item, index }) => {
     const opacity = useState(new Animated.Value(0))[0];
 
     const { habitsData } = useDataStateContext();
     const dataDispatch = useDataDispatchContext();
 
-    const onButtonPress = (id, index) => {
+    const onButtonPress = (id, progress, index) => {
         dataDispatch({ type: "COMPLETE_HABIT", payload: id });
         if (habitsData[index].completed) {
             fadeIn(index);
@@ -118,30 +142,12 @@ const TodayButton = ({ item, index }) => {
         }).start();
     };
 
-    const colorList = [
-        "#ffc6ff",
-        "#bdb2ff",
-        "#a0c4ff",
-        "#9bf6ff",
-        "#caffbf",
-        "#fdffb6",
-        "#ffd6a5",
-        "#ffadad",
-    ];
-
-    const randomColor = () => {
-        const generatedColor =
-            colorList[Math.floor(Math.random() * colorList.length)];
-
-        return generatedColor;
-    };
-
     return (
         <StyledTodayButton title={item.title}>
             <TodayButtonIcon
-                onPress={() => onButtonPress(item.id, index)}
+                onPress={() => onButtonPress(item.id, item.progress, index)}
                 hitSlop={10}
-                progress={item.progress >= 100}
+                color={item.color}
                 style={({ pressed }) => [
                     {
                         backgroundColor: pressed
@@ -158,17 +164,43 @@ const TodayButton = ({ item, index }) => {
                 ]}
             >
                 <ProgressMeter
+                    // transition="height"
+                    // duration={1000}
+                    // easing="ease-out-circ"
                     progress={item.progress}
                     completed={item.completed}
-                    color={randomColor()}
-                />
+                    color={item.color}
+                ></ProgressMeter>
                 <ProgressStreak
+                    transition="height"
+                    duration={1000}
+                    easing="ease-out-circ"
                     streak={item.streak}
+                    color={item.color}
+                    completed={item.completed}
+                    ></ProgressStreak>
+                <ProgressStreakText
+                    transition="opacity"
+                    completed={item.completed}
+                    delay={item.completed ? 250 : 0}
+                    duration={item.completed ? 1000 : 1}
+                    style={{ zIndex: 1 }}
+                >
+                    {item.streak}
+                </ProgressStreakText>
+
+                {/* <ProgressStreak
+                    streak={item.streak}
+                    color={item.color}
                     style={{ opacity: opacity }}
                 >
                     <ProgressStreakText>{item.streak}</ProgressStreakText>
-                </ProgressStreak>
-                <HabitIMG icon={item.icon} size={32} />
+                </ProgressStreak> */}
+                <HabitIMG
+                    icon={item.icon}
+                    size={32}
+                    color={item.completed ? "#fff" : item.color}
+                />
             </TodayButtonIcon>
             <TodayButtonLabel numberOfLines={2}>{item.title}</TodayButtonLabel>
         </StyledTodayButton>

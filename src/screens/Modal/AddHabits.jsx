@@ -15,26 +15,27 @@ import {
     ScrollView,
     Modal,
 } from "react-native";
-import DockBottom from "../homeScreen/DockBottom";
-import NavigationTop from "../homeScreen/NavigationTop";
+// import DockBottom from "../../homeScreen/DockBottom";
+// import NavigationTop from "../homeScreen/NavigationTop";
 
-import TodayTab from "../homeScreen/TodayScreen";
-import HabitsTab from "../homeScreen/HabitsScreen";
-import colorsList from "../../assets/icons-and-colors/colorsList.json";
+// import TodayTab from "./Home/Today";
+// import HabitsTab from "./Home/Habits";
+import colorsList from "../../../assets/icons-and-colors/colorsList.json";
 
 import {
     useGlobalDispatchContext,
     useGlobalStateContext,
-} from "../context/globalContext";
-import Header from "../layout/Header";
+} from "../../context/globalContext";
+import Header from "../../layout/Header";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const StyledAddHabits = styled.View`
     background-color: rgba(0, 0, 0, 0.5);
-    height: 100%;
-    width: 100%;
+    /* height: 100%;
+    width: 100%; */
+    flex: 1;
     position: relative;
 `;
 
@@ -110,7 +111,7 @@ const HabitIconPreview = styled.View`
     border-radius: 50px;
 `;
 
-const AddHabits = () => {
+const AddHabits = ({ navigation }) => {
     const globalDispatch = useGlobalDispatchContext();
     const { currentScreen } = useGlobalStateContext();
     const [repeatHabit, setRepeatHabit] = useState(true);
@@ -162,19 +163,15 @@ const AddHabits = () => {
                 <Header
                     buttonLeft={{
                         title: "Cancel",
-                        action: () =>
-                            globalDispatch({
-                                type: "SET_SCREEN",
-                                payload: "home",
-                            }),
+                        action: () => {
+                            navigation.navigate("Habits");
+                        },
                     }}
                     buttonRight={{
                         title: "Save",
-                        action: () =>
-                            globalDispatch({
-                                type: "SET_SCREEN",
-                                payload: "home",
-                            }),
+                        action: () => {
+                            navigation.navigate("Habits");
+                        },
                     }}
                 >
                     New Habit

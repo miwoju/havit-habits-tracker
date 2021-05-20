@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { createStackNavigator } from "@react-navigation/stack";
+
 import {
     Text,
     View,
@@ -14,17 +16,19 @@ import {
     ScrollView,
 } from "react-native";
 
-import { useDataStateContext } from "../context/dataContext";
+import { useDataStateContext } from "../../context/dataContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import NavigationTop from "./NavigationTop";
-import Header from "../layout/Header";
-import { useGlobalDispatchContext } from "../context/globalContext";
+import NavigationTop from "../../layout/NavigationTop";
+import Header from "../../layout/Header";
+import { useGlobalDispatchContext } from "../../context/globalContext";
+import HeaderButtons from "../../components/HeaderButtons";
+import AddHabits from "../Modal/AddHabits";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const StyledHabitsScreen = styled.View`
+const StyledHabits = styled.View`
     flex: 1;
 `;
 
@@ -93,7 +97,7 @@ const HabitStreaks = styled.Text`
 //     justify-content: center;
 // `;
 
-const HabitsScreen = () => {
+const Habits = () => {
     const { habitsData } = useDataStateContext();
     const globalDispatch = useGlobalDispatchContext();
 
@@ -119,8 +123,8 @@ const HabitsScreen = () => {
         </HabitItem>
     );
     return (
-        <StyledHabitsScreen>
-            <Header
+        <StyledHabits>
+            {/* <Header
                 buttonRight={{
                     title: "ADD",
                     action: () =>
@@ -131,7 +135,7 @@ const HabitsScreen = () => {
                 }}
             >
                 My Habits
-            </Header>
+            </Header> */}
             <HabitsCategoryBox>
                 <TouchableOpacity>
                     <HabitsCategoryItem>Morning</HabitsCategoryItem>
@@ -152,8 +156,29 @@ const HabitsScreen = () => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             ></FlatList>
-        </StyledHabitsScreen>
+        </StyledHabits>
     );
 };
 
-export default HabitsScreen;
+const Stack = createStackNavigator();
+
+export const HabitsStack = ({ navigation }) => {
+    return (
+        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+            <Stack.Screen
+                name="Habits"
+                options={{
+                    headerRight: () => (
+                        <HeaderButtons
+                            title={"ADD"}
+                            onPress={() => {
+                                navigation.navigate("AddHabits");
+                            }}
+                        />
+                    ),
+                }}
+                component={Habits}
+            />
+        </Stack.Navigator>
+    );
+};

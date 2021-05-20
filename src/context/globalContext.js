@@ -67,3 +67,7 @@ export const GlobalProvider = ({ children }) => {
 
 export const useGlobalStateContext = () => useContext(GlobalStateContext);
 export const useGlobalDispatchContext = () => useContext(GlobalDispatchContext);
+
+// export const addHabits = () => {
+//     useGlobalDispatchContext({type: ""})
+// }
