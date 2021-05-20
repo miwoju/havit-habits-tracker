@@ -109,43 +109,33 @@ const ProgressStreakText = styled(Animatable.Text)`
     font-size: 24px;
     font-weight: bold;
     position: absolute;
-    opacity: ${(props) => (props.completed ? 1 : 0)};
+    /* opacity: ${(props) => (props.completed ? 1 : 0)}; */
 `;
 
 const TodayButton = ({ item, index }) => {
-    const opacity = useState(new Animated.Value(0))[0];
+    const [opacity, setOpacity] = useState(0);
 
     const { habitsData } = useDataStateContext();
     const dataDispatch = useDataDispatchContext();
 
-    const onButtonPress = (id, progress, index) => {
+    const onButtonPress = (id, completed, index) => {
         dataDispatch({ type: "COMPLETE_HABIT", payload: id });
-        if (habitsData[index].completed) {
-            fadeIn(index);
+
+        if (item.completed) {
+            setOpacity(1);
+            let timer = setTimeout(() => {
+                setOpacity(0);
+                clearTimeout(timer);
+            }, 1200);
+        } else {
+            setOpacity(0);
         }
-    };
-
-    const fadeIn = (index) => {
-        Animated.timing(opacity, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-        }).start(() => fadeOut());
-    };
-
-    const fadeOut = (index) => {
-        Animated.timing(opacity, {
-            toValue: 0,
-            duration: 700,
-            delay: 400,
-            useNativeDriver: true,
-        }).start();
     };
 
     return (
         <StyledTodayButton title={item.title}>
             <TodayButtonIcon
-                onPress={() => onButtonPress(item.id, item.progress, index)}
+                onPress={() => onButtonPress(item.id, item.completed, index)}
                 hitSlop={10}
                 color={item.color}
                 style={({ pressed }) => [
@@ -178,13 +168,13 @@ const TodayButton = ({ item, index }) => {
                     streak={item.streak}
                     color={item.color}
                     completed={item.completed}
-                    ></ProgressStreak>
+                ></ProgressStreak>
                 <ProgressStreakText
                     transition="opacity"
                     completed={item.completed}
-                    delay={item.completed ? 250 : 0}
-                    duration={item.completed ? 1000 : 1}
-                    style={{ zIndex: 1 }}
+                    duration={item.completed ? 800 : 1}
+                    style={{ zIndex: 1, opacity: opacity }}
+                    onAnimationEnd={() => setOpacity(0)}
                 >
                     {item.streak}
                 </ProgressStreakText>

@@ -55,15 +55,17 @@ const HabitItem = styled.View`
     background-color: #fff;
     margin: 5px 10px 7px 10px;
     align-items: center;
-    padding: 0 25px;
-    /* border-radius: 15px; */
+    /* padding: 0 25px; */
     border-radius: 50px;
+    overflow: hidden;
 `;
 
 const HabitItemInfo = styled.View`
     flex-direction: row;
     align-items: center;
     flex: 1;
+    z-index: 1;
+    margin-left: 25px;
 `;
 
 const HabitIMG = styled(FontAwesomeIcon)`
@@ -80,6 +82,8 @@ const HabitLabel = styled.Text`
 
 const HabitStreaks = styled.Text`
     font-weight: bold;
+    z-index: 1;
+    margin-right: 25px;
 `;
 
 // const HeaderTitle = styled.Text`
@@ -96,6 +100,15 @@ const HabitStreaks = styled.Text`
 //     align-items: center;
 //     justify-content: center;
 // `;
+
+const HabitsProgress = styled.View`
+    background-color: ${(props) => props.color};
+    height: 100%;
+    width: ${(props) => props.progress}%;
+    position: absolute;
+    left: 0;
+    border-radius: 3px;
+`;
 
 const Habits = () => {
     const { habitsData } = useDataStateContext();
@@ -120,6 +133,11 @@ const Habits = () => {
             <HabitStreaks>
                 <Text style={{ color: "grey" }}>{item.streak}</Text> D
             </HabitStreaks>
+            <HabitsProgress
+                // style={{ transform: [{ skewY: "1deg" }] }}
+                color={item.color}
+                progress={item.progress}
+            />
         </HabitItem>
     );
     return (
