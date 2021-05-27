@@ -17,8 +17,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 library.add(faCoffee, faDumbbell, faTooth, faRunning, faBookOpen);
 
+import { useFonts } from "expo-font";
+
 const App = ({ children }) => {
+    const [loaded] = useFonts({
+        Norms: require("./src/assets/fonts/TTNorms-Regular.otf"),
+    });
+
+    if (!loaded) {
+        return null;
+    }
     const lightTheme = {
+        colorPrimary: "#fee9d1",
+        colorSecondary: "#fcf3e6",
         backgroundColor: "#f5f5f5",
         inputBackground: "#f4f5f7",
         // backgroundColor: "#e9e9e9",
@@ -29,7 +40,7 @@ const App = ({ children }) => {
         <GlobalProvider>
             <DataProvider>
                 <ThemeProvider theme={lightTheme}>
-                    <StatusBar />
+                    <StatusBar translucent={true} />
                     <SafeAreaView
                         style={{
                             flex: 1,

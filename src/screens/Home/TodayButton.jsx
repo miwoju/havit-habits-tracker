@@ -28,53 +28,53 @@ const windowHeight = Dimensions.get("window").height;
 
 const StyledTodayButton = styled.View`
     align-items: center;
-    /* justify-content: center; */
-    width: ${windowWidth / 4}px;
-    aspect-ratio: 1;
-    margin-bottom: 30px;
+
+    width: ${100 / 3}%;
+    /* margin-bottom: 20px; */
+    padding: 5px;
+    /* border: 1px solid black; */
 `;
 
 const TodayButtonIcon = styled.Pressable`
-    /* border: 3px solid #ffadad; */
-
-    /* background-color: #caffbf; */
-
-    border-radius: 50px;
-    width: 70%;
-    margin: 5px;
-    /* border: 1px solid rgba(0, 0, 0, 0.1); */
+    border-radius: 100px;
+    width: 85%;
     aspect-ratio: 1;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 2px solid ${(props) => props.color};
-
-    /* border: 1px solid ${(props) =>
-        props.progress ? "#000" : "transparent"}; */
+    /* border: ${(props) => (props.completed ? "5px solid" : "1.5px dashed")}
+        ${(props) => props.color}; */
+    /* padding: 5px; */
 `;
 
 const HabitIMG = styled(FontAwesomeIcon)`
-    /* border: 3px solid #ffd6a5;
-    border-radius: 50px; */
-    color: ${(props) => props.theme.text};
+    /* color: ${(props) => props.theme.text}; */
+    z-index: 1;
 `;
 
 const TodayButtonLabel = styled.Text`
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 14px;
+    margin-top: 8px;
     text-align: center;
+    line-height: 18px;
     margin-horizontal: 5px;
+    color: ${(props) => props.theme.text};
+    font-family: "Norms";
 `;
 
 const ProgressMeter = styled(Animatable.View)`
     /* background-color: ${(props) => props.color}; */
     /* opacity: ${(props) => (props.completed ? 1 : 0.8)}; */
     width: 100%;
-    opacity: 0.3;
     /* height: ${(props) => props.progress}%; */
+    background-color: #fff;
     height: 100%;
     position: absolute;
-    bottom: 0;
+    border-radius: 100px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 6px solid ${(props) => props.color};
 `;
 
 const ProgressStreak = styled(Animatable.View)`
@@ -104,11 +104,21 @@ const ProgressStreak = styled(Animatable.View)`
 //     z-index: 0;
 // `;
 
-const ProgressStreakText = styled(Animatable.Text)`
-    color: ${(props) => props.theme.text};
-    font-size: 24px;
+const ProgressStreakTextContainer = styled(Animatable.View)`
+    position: absolute;
+    background-color: ${(props) => props.theme.text};
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+`;
+const ProgressStreakText = styled.Text`
+    color: #fff;
+    font-size: 16px;
     font-weight: bold;
     position: absolute;
+
     /* opacity: ${(props) => (props.completed ? 1 : 0)}; */
 `;
 
@@ -138,18 +148,15 @@ const TodayButton = ({ item, index }) => {
                 onPress={() => onButtonPress(item.id, item.completed, index)}
                 hitSlop={10}
                 color={item.color}
+                completed={item.completed}
                 style={({ pressed }) => [
                     {
                         backgroundColor: pressed
                             ? "rgb(210, 230, 255)"
-                            : "#fff",
+                            : "transparent",
                     },
                     {
                         elevation: 4,
-                        shadowOffset: { width: 5, height: 5 },
-                        shadowColor: "grey",
-                        shadowOpacity: 0.5,
-                        shadowRadius: 10,
                     },
                 ]}
             >
@@ -160,24 +167,38 @@ const TodayButton = ({ item, index }) => {
                     progress={item.progress}
                     completed={item.completed}
                     color={item.color}
-                ></ProgressMeter>
-                <ProgressStreak
-                    transition="height"
-                    duration={1000}
-                    easing="ease-out-circ"
-                    streak={item.streak}
-                    color={item.color}
-                    completed={item.completed}
-                ></ProgressStreak>
-                <ProgressStreakText
-                    transition="opacity"
-                    completed={item.completed}
-                    duration={item.completed ? 800 : 1}
-                    style={{ zIndex: 1, opacity: opacity }}
-                    onAnimationEnd={() => setOpacity(0)}
+                    style={{
+                        elevation: 3,
+                        shadowOffset: { width: 5, height: 5 },
+                        shadowColor: "grey",
+                        shadowOpacity: 0.5,
+                        shadowRadius: 10,
+                    }}
                 >
-                    {item.streak}
-                </ProgressStreakText>
+                    <HabitIMG
+                        icon={item.icon}
+                        size={32}
+                        color={item.completed ? "#fff" : item.color}
+                    />
+                    <ProgressStreak
+                        transition="height"
+                        duration={1000}
+                        easing="ease-out-circ"
+                        streak={item.streak}
+                        color={item.color}
+                        completed={item.completed}
+                    ></ProgressStreak>
+                    <ProgressStreakTextContainer
+                        transition="opacity"
+                        completed={item.completed}
+                        duration={item.completed ? 800 : 1}
+                        delay={250}
+                        style={{ zIndex: 5, opacity: opacity }}
+                        onAnimationEnd={() => setOpacity(0)}
+                    >
+                        <ProgressStreakText>{item.streak}</ProgressStreakText>
+                    </ProgressStreakTextContainer>
+                </ProgressMeter>
 
                 {/* <ProgressStreak
                     streak={item.streak}
@@ -186,13 +207,12 @@ const TodayButton = ({ item, index }) => {
                 >
                     <ProgressStreakText>{item.streak}</ProgressStreakText>
                 </ProgressStreak> */}
-                <HabitIMG
-                    icon={item.icon}
-                    size={32}
-                    color={item.completed ? "#fff" : item.color}
-                />
             </TodayButtonIcon>
-            <TodayButtonLabel numberOfLines={2}>{item.title}</TodayButtonLabel>
+            <TodayButtonLabel
+            // numberOfLines={2}
+            >
+                {item.title}
+            </TodayButtonLabel>
         </StyledTodayButton>
     );
 };

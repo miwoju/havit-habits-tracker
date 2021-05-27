@@ -19,6 +19,8 @@ const StyledNavigationTop = styled.View`
     align-items: center;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    /* background-color: #fee9d1; */
+
 `;
 
 const NavigationTop = ({ height, children }) => {

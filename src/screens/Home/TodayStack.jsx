@@ -16,6 +16,7 @@ import {
     Pressable,
     Alert,
     TouchableOpacity,
+    ScrollView,
 } from "react-native";
 
 import {
@@ -25,18 +26,25 @@ import {
 
 import NavigationTop from "../../layout/NavigationTop";
 import TodayButton from "./TodayButton";
+import { StatusBar } from "expo-status-bar";
+import { LinearGradient } from "expo-linear-gradient";
 
 const StyledToday = styled.View`
     flex: 1;
+    /* padding-top: 60px; */
 `;
 
 const HabitsCategoryLabel = styled.Text`
-    margin: 15px 15px 15px 15px;
-    background-color: lightgrey;
-    align-self: flex-start;
-    padding: 5px 10px;
+    /* margin-bottom: 15px; */
+    background-color: #fff;
+    align-self: center;
+    /* padding: 6px; */
+    margin-right: 12px;
     border-radius: 50px;
     font-size: 14px;
+    color: ${(props) => props.theme.text};
+    font-family: "Norms";
+    /* font-weight: bold; */
 `;
 
 // const HabitsItem = ({ title }) => <View></View>;
@@ -52,31 +60,81 @@ const Today = () => {
     const renderItem = ({ item, index }) => (
         <TodayButton item={item} index={index} />
     );
+    const listHeader = (
+        <View style={{ flexDirection: "row", marginLeft: 30 }}>
+            <HabitsCategoryLabel
+            // style={{ elevation: 4}}
+            >
+                Morning
+            </HabitsCategoryLabel>
+            <HabitsCategoryLabel
+            // style={{ elevation: 4}}
+            >
+                Afternoon
+            </HabitsCategoryLabel>
+            <HabitsCategoryLabel
+            // style={{ elevation: 4}}
+            >
+                Night
+            </HabitsCategoryLabel>
+            <HabitsCategoryLabel
+            // style={{ elevation: 4}}
+            >
+                All
+            </HabitsCategoryLabel>
+        </View>
+    );
     return (
-        <StyledToday>
-            <HabitsCategoryLabel>Morning</HabitsCategoryLabel>
+        <StyledToday
+        // colors={["#FFF8EA", "#fcf3e6"]}
+        // start={{ x: 0, y: 0 }}
+        // end={{ x: 1.2, y: 1.2 }}
+        // locations={[0.3, 0.9]}
+        >
             <FlatList
-                numColumns={4}
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={listHeader}
+                contentContainerStyle={{
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                }}
+                columnWrapperStyle={{
+                    // backgroundColor: "#fcf3e6",
+                    paddingTop: 10,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    // borderTopRightRadius: 65,
+                }}
+                numColumns={3}
                 data={habitsData}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             ></FlatList>
-            <TouchableOpacity
-                onPress={() => dataDispatch({ type: "RESET_DATA" })}
-            >
-                <Text>RESET</Text>
-            </TouchableOpacity>
         </StyledToday>
     );
 };
 
+const SearchBar = styled.View`
+    /* background-color: #fff; */
+    width: 100%;
+    /* position: absolute; */
+    flex-direction: row;
+    align-items: center;
+    border-bottom-left-radius: 60px;
+    background-color: ${(props) => props.theme.colorPrimary};
+    height: 53px;
+`;
+
 const SearchInput = styled.TextInput`
     /* background-color: ${(props) => props.theme.backgroundColor}; */
-    background-color: lightgrey;
+    /* background-color: lightgrey; */
+    color: ${(props) => props.theme.text};
     flex: 1;
-    padding: 0 12px;
+    padding: 0 25px;
     align-self: stretch;
     margin: 10px 5px 10px 15px;
+    font-size: 16px;
+    font-family: "Norms";
 `;
 
 const SearchButton = styled.View`
@@ -91,7 +149,7 @@ const SearchHeader = () => {
     const [text, setText] = useState("");
 
     return (
-        <NavigationTop height="60px">
+        <SearchBar>
             <SearchInput
                 placeholder="Search my Habits!"
                 onChangeText={(text) => setText(text)}
@@ -102,7 +160,7 @@ const SearchHeader = () => {
             <SearchButton>
                 <Text>Icon</Text>
             </SearchButton>
-        </NavigationTop>
+        </SearchBar>
     );
 };
 
@@ -110,7 +168,21 @@ const Stack = createStackNavigator();
 
 export const TodayStack = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+        <Stack.Navigator
+            screenOptions={{
+                headerTitleAlign: "center",
+                cardStyle: {
+                    elevation: 3,
+                    // backgroundColor: "#FFF8EA",
+                    backgroundColor: "#fff",
+                    // marginTop: 12,
+                    marginLeft: 12,
+                    marginRight: 12,
+                    marginBottom: 8,
+                    borderRadius: 30,
+                },
+            }}
+        >
             <Stack.Screen
                 name="Today"
                 options={{ header: () => <SearchHeader /> }}

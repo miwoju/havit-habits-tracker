@@ -20,7 +20,7 @@ import {
 
 // import TodayTab from "./Home/Today";
 // import HabitsTab from "./Home/Habits";
-import colorsList from "../../../assets/icons-and-colors/colorsList.json";
+import colorsList from "../../../src/assets/icons-and-colors/colorsList.json";
 
 import {
     useGlobalDispatchContext,

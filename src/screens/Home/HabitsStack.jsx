@@ -33,10 +33,11 @@ const StyledHabits = styled.View`
 `;
 
 const HabitsCategoryBox = styled.View`
-    background-color: #fff;
-    border-bottom-color: lightgrey;
-    border-bottom-width: 1px;
+    /* background-color: #fff; */
+    /* border-bottom-color: lightgrey; */
+    /* border-bottom-width: 1px; */
     /* margin-bottom: 12px; */
+    font-family: "Norms";
     flex-direction: row;
     padding: 5px 10px;
 `;
@@ -44,6 +45,7 @@ const HabitsCategoryBox = styled.View`
 const HabitsCategoryItem = styled.Text`
     padding: 5px;
     margin-horizontal: 10px;
+    color: #707070;
     /* border: 1px solid grey; */
 `;
 
@@ -53,7 +55,7 @@ const HabitItem = styled.View`
     height: 70px;
     /* border: 1px solid #000; */
     background-color: #fff;
-    margin: 5px 10px 7px 10px;
+    margin: 5px 10px 12px 10px;
     align-items: center;
     /* padding: 0 25px; */
     border-radius: 50px;
@@ -76,14 +78,23 @@ const HabitLabel = styled.Text`
     padding: 0 10px 0 20px;
     flex: 1;
     width: 100%;
+    color: #707070;
+    font-size: 20px;
     font-weight: bold;
+    font-family: "Norms";
     /* font-size: 15px; */
 `;
 
-const HabitStreaks = styled.Text`
-    font-weight: bold;
+const HabitStreaks = styled.View`
     z-index: 1;
-    margin-right: 25px;
+    border-radius: 100px;
+    margin-right: 8px;
+    height: 80%;
+    aspect-ratio: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    /* margin-right: 25px; */
 `;
 
 // const HeaderTitle = styled.Text`
@@ -108,6 +119,7 @@ const HabitsProgress = styled.View`
     position: absolute;
     left: 0;
     border-radius: 3px;
+    opacity: 0.9;
 `;
 
 const Habits = () => {
@@ -118,8 +130,7 @@ const Habits = () => {
         <HabitItem
             title={item.title}
             style={{
-                // elevation: 15,
-                elevation: 3,
+                // elevation: 3,
                 shadowOffset: { width: 5, height: 5 },
                 shadowColor: "grey",
                 shadowOpacity: 0.5,
@@ -127,11 +138,20 @@ const Habits = () => {
             }}
         >
             <HabitItemInfo>
-                <HabitIMG icon={item.icon} size={34} color={"#ffadad"} />
+                <HabitIMG icon={item.icon} size={34} color={"#707070"} />
                 <HabitLabel numberOfLines={2}>{item.title}</HabitLabel>
             </HabitItemInfo>
-            <HabitStreaks>
-                <Text style={{ color: "grey" }}>{item.streak}</Text> D
+            <HabitStreaks style={{ elevation: 4 }}>
+                <Text
+                    style={{
+                        color: "#707070",
+                        fontSize: 24,
+                        fontWeight: "bold",
+                        fontFamily: "Norms",
+                    }}
+                >
+                    {item.streak}
+                </Text>
             </HabitStreaks>
             <HabitsProgress
                 // style={{ transform: [{ skewY: "1deg" }] }}
@@ -182,10 +202,23 @@ const Stack = createStackNavigator();
 
 export const HabitsStack = ({ navigation }) => {
     return (
-        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+        <Stack.Navigator
+            screenOptions={{
+                headerTitleAlign: "center",
+                headerTitleStyle: {
+                    fontFamily: "Norms",
+                    fontWeight: "bold",
+                    color: "#707070",
+                },
+            }}
+        >
             <Stack.Screen
                 name="Habits"
                 options={{
+                    headerStyle: {
+                        backgroundColor: "transparent",
+                        elevation: 0,
+                    },
                     headerRight: () => (
                         <HeaderButtons
                             title={"ADD"}
